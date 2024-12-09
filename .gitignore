@@ -1,0 +1,50 @@
+# Entorno virtual
+venv/
+.env
+
+# Archivos compilados por Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Configuración del entorno
+.env
+.env.*
+
+# Archivos de registros
+*.log
+
+# Bases de datos locales
+*.sqlite3
+
+# Archivos y directorios temporales de sistemas operativos
+*.DS_Store
+Thumbs.db
+
+# Configuración de IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Módulos y dependencias de Python
+*.egg-info/
+dist/
+build/
+eggs/
+pip-wheel-metadata/
+
+# Archivos de caché de paquetes
+*.parquet
+*.h5
+*.egg-info
+.tox/
+.cache/
+
+# Archivos y directorios de testing
+.coverage
+*.cover
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
