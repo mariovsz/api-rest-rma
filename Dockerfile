@@ -10,3 +10,4 @@ ENV POSTGRES_DB=${POSTGRES_DB}
 
 # Exponer el puerto de PostgreSQL
 EXPOSE 5432
+

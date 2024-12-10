@@ -13,7 +13,7 @@ El proyecto consiste en una API REST para gestionar un sistema de Nodos IoT. La 
 
 ## Descripción
 
-Este proyecto permite monitorear diversas condiciones ambientales a través de nodos IoT desplegados en una red. Los nodos recopilan datos como temperatura, humedad, calidad del aire, entre otros, y los envían a una base de datos central para su almacenamiento y análisis.
+Este proyecto permite monitorear diversas condiciones ambientales a través de nodos IoT desplegados en una red. Los nodos recopilan datos como temperatura, humedad, viento, entre otros, y los envían a una base de datos central para su almacenamiento y análisis.
 
 ## Características
 
