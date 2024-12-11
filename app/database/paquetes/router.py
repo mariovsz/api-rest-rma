@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
-from ...database import get_db
+from ..database import get_db
 from ..paquetes import schemas, services
 
 router = APIRouter()

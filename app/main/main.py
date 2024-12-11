@@ -4,9 +4,9 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .database import engine
-from ..entities.basemodel import ModeloBase
-from ..entities.paquetes.router import router as paquete_router
+from ..database.database import engine
+from ..database.basemodel import ModeloBase
+from ..database.paquetes.router import router as paquete_router
 from ..MQTT.iot_thread import IoTThread
 
 
@@ -19,7 +19,8 @@ def process_mqtt_message(message: str):
 load_dotenv()
 ENV = os.getenv("ENV", "DEV")
 ROOT_PATH = os.getenv(f"ROOT_PATH_{ENV.upper()}", "")
-# MQTT CONFIGURATION
+
+# Variables de MQTT
 MQTT_TOPIC = os.getenv("MQTT_TOPIC", "")
 MQTT_BROKER = os.getenv("MQTT_BROKER", "")
 MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
@@ -29,10 +30,13 @@ MQTT_KEEPALIVE = int(os.getenv("MQTT_KEEPALIVE", 60))
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     ModeloBase.metadata.create_all(bind=engine)
-
     # Iniciar el hilo IoT cuando se inicie la aplicación
     iot_thread = IoTThread(
-        MQTT_BROKER, MQTT_PORT, MQTT_TOPIC, MQTT_KEEPALIVE, process_mqtt_message  # type: ignore
+        MQTT_BROKER,
+        MQTT_PORT,
+        MQTT_TOPIC,
+        MQTT_KEEPALIVE,
+        process_mqtt_message,
     )
     iot_thread.start()
 
@@ -43,12 +47,12 @@ async def lifespan(app: FastAPI):
 
 
 # Crear la aplicación FastAPI
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(root_path=ROOT_PATH, lifespan=lifespan)
 
 
 origins = [
-    "http://localhost",
-    "http://localhost:8000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 # Configuración de CORS
@@ -61,5 +65,9 @@ app.add_middleware(
 )
 
 
-# Incluir routas
-app.include_router(paquete_router, prefix="/paquetes", tags=["Paquetes"])
+# Incluir rutas
+app.include_router(
+    paquete_router,
+    prefix="/paquetes",
+    tags=["Paquetes"],
+)
