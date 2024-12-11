@@ -48,3 +48,22 @@ pip install -r requirements.txt
 # Crear y ejecutar el contenedor de Docker
 docker-compose up -d
 ```
+
+```.
+├── app
+│ ├── database.py # Configuración de la base de datos
+│ ├── main.py # Punto de entrada de la aplicación
+│ ├── entidad
+│ | ├── models.py #modelo de las entidades
+│ | ├── schemas.py # Esquemas Pydantic para validación de datos
+│ | ├── router.py # Rutas de la API
+│ | └── services.py # servicios para las operaciones CRUD
+│ ├── MQTT
+│ ├── AUTH
+│ └──
+├── Dockerfile # Dockerfile para construir la imagen
+├── docker-compose.yml # Configuración de Docker Compose
+├── .env # Archivo de variables de entorno
+├── requirements.txt # Dependencias del proyecto
+└── README.md # Este archivo
+```
