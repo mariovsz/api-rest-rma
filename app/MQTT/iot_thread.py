@@ -25,7 +25,6 @@ class IoTThread(threading.Thread):
         self.message_counter = 0
         self.subscribed = False
         self.toolkit = get_rich_toolkit()
-        self.toolkit.print_line()
 
     def on_connect(self, client, userdata, flags, rc) -> None:
         if not self.subscribed:
@@ -61,6 +60,6 @@ class IoTThread(threading.Thread):
             time.sleep(5)
 
     def stop(self):
-        self.toolkit.print("Finalizando el suscriptor", tag="MQTT")
         self._stop_event.set()
         self.client.disconnect()
+        self.toolkit.print("Finalizado el hilo suscriptor", tag="MQTT")
