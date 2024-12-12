@@ -9,6 +9,11 @@ from . import schemas
 from .models import Paquete, PaqueteArchivo, PaqueteRechazado
 
 
+def crear_paquete(db: Session, new_paquete: schemas.PaqueteCreate) -> schemas.Paquete:
+    paquete = Paquete.create(db, new_paquete)
+    return schemas.Paquete.model_validate(paquete)
+
+
 def listar_paquetes(
     db: Session,
     limit: Optional[int] = None,
@@ -71,10 +76,6 @@ def listar_paquetes(
         ),
         items=[schemas.Paquete.model_validate(rp) for rp in items],
     )
-
-
-def crear_paquete(db: Session, paquete: schemas.PaqueteCreate) -> Paquete:
-    return Paquete.create(db, paquete)
 
 
 def crear_paquete_rechazado(

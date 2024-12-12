@@ -11,9 +11,8 @@ router = APIRouter()
 
 
 @router.get(
-    "/paquetes",
+    "/",
     response_model=schemas.PaqueteResponse,
-    tags=["Paquetes"],
 )
 def read_paquetes(
     limit: int = Query(None, ge=1),
@@ -45,9 +44,8 @@ def read_paquetes(
 
 
 @router.get(
-    "/paquetesarchivos",
+    "/archivos/",
     response_model=schemas.PaqueteArchivoResponse,
-    tags=["Paquetes"],
 )
 def read_paquetes_archivos(
     limit: int = Query(None, ge=1),
