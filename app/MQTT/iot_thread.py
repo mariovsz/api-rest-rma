@@ -62,4 +62,4 @@ class IoTThread(threading.Thread):
     def stop(self):
         self._stop_event.set()
         self.client.disconnect()
-        self.toolkit.print("Finalizado el hilo suscriptor", tag="MQTT")
+        self.toolkit.print("Finalizando el hilo suscriptor", tag="MQTT")
