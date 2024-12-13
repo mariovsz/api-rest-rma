@@ -1,2 +1,5 @@
 fastapi[standard]
 sqlalchemy
+psycopg2-binary
+paho-mqtt
+alembic

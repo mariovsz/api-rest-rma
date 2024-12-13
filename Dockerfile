@@ -1,6 +1,6 @@
 # Dockerfile
-# Usar la imagen oficial de PostgreSQL 16
-FROM postgres:16
+# Usar la imagen oficial de PostgreSQL 17
+FROM postgres:17
 
 # Cargar variables de entorno del archivo .env
 COPY .env .env
