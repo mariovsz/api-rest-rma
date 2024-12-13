@@ -67,3 +67,81 @@ docker-compose up -d
 ├── requirements.txt # Dependencias del proyecto
 └── README.md # Este archivo
 ```
+
+```Representación de la base de datos en dbdiagram.io
+
+table Nodos {
+  id int [pk, increment]
+  nombre varchar(255)
+  ubicacion varchar(255)
+  tipo_sensor varchar(255)
+  estado varchar(50)
+}
+
+table Paquetes {
+  id int [pk, increment]
+  nodo_id int [ref: > Nodos.id]
+  tipo_id int [ref: > Tipos.id]
+  valor float
+  timestamp datetime
+}
+
+table Permisos {
+  id int [pk, increment]
+  nombre varchar(255)
+  descripcion varchar(255)
+}
+
+table Roles {
+  id int [pk, increment]
+  nombre varchar(255)
+  descripcion varchar(255)
+}
+
+table RolePermisos {
+  rol_id int [ref: > Roles.id]
+  permiso_id int [ref: > Permisos.id]
+}
+
+table Tipos {
+  id int [pk, increment]
+  nombre varchar(255)
+  simbolo varchar(50)
+}
+
+table Usuarios {
+  id int [pk, increment]
+  nombre varchar(255)
+  email varchar(255)
+  hashed_password varchar(255)
+}
+
+table UserRoles {
+  usuario_id int [ref: > Usuarios.id]
+  rol_id int [ref: > Roles.id]
+}
+
+table Alarmas {
+  id int [pk, increment]
+  nodo_id int [ref: > Nodos.id]
+  umbral_id int [ref: > Umbrales.id]
+  tipo varchar(255)
+  fecha datetime
+}
+
+table Notificaciones {
+  id int [pk, increment]
+  alarma_id int [ref: > Alarmas.id]
+  usuario_id int [ref: > Usuarios.id]
+  mensaje varchar(255)
+  fecha datetime
+}
+
+table Umbrales {
+  id int [pk, increment]
+  tipo_id int [ref: > Tipos.id]
+  valor_min float
+  valor_max float
+  descripcion varchar(255)
+}
+```

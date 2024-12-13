@@ -1,11 +1,13 @@
 from pydantic import BaseModel as Schema
-from sqlalchemy import update
-from sqlalchemy.orm import Session, declarative_base
+from datetime import datetime
+from sqlalchemy import update, Column, Integer, DateTime
+from sqlalchemy.orm import Session, declarative_base, mapped_column, Mapped
+from sqlalchemy.sql import func
 
 Base = declarative_base()
 
 
-# autor original: https://stackoverflow.com/a/54034230
+# Autor original: https://stackoverflow.com/a/54034230
 def keyvalgen(obj):
     """Genera pares nombre/valor, quitando/filtrando los atributos de SQLAlchemy."""
     excl = ("_sa_adapter", "_sa_instance_state")
@@ -19,35 +21,55 @@ class ModeloBase(Base):
 
     __abstract__ = True
 
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), onupdate=func.now()
+    )
+
     def save(self, db: Session):
-        db.add(self)
-        db.commit()
-        db.refresh(self)
-        return self
+        try:
+            db.add(self)
+            db.commit()
+            db.refresh(self)
+            return self
+        except Exception as e:
+            db.rollback()
+            raise e
 
     def delete(self, db: Session):
-        db.delete(self)
-        db.commit()
-        return self
+        try:
+            db.delete(self)
+            db.commit()
+            return self
+        except Exception as e:
+            db.rollback()
+            raise e
 
     def update(self, db: Session, schema: Schema):
-        # identificamos la instancia en la db
-        primary_key = self.id
-        # creamos la sentencia de update filtrando al objeto.
-        stmt = (
-            update(self.__class__)
-            .where(self.__class__.id == primary_key)
-            .values(**schema.model_dump(exclude_unset=True))
-        )
-
-        db.execute(stmt)
-        return self.save(db)
+        try:
+            primary_key = self.id
+            stmt = (
+                update(self.__class__)
+                .where(self.__class__.id == primary_key)
+                .values(**schema.model_dump(exclude_unset=True))
+            )
+            db.execute(stmt)
+            return self.save(db)
+        except Exception as e:
+            db.rollback()
+            raise e
 
     @classmethod
     def create(cls, db: Session, schema: Schema):
-
-        instance = cls(**schema.model_dump())
-        return instance.save(db)
+        try:
+            instance = cls(**schema.model_dump())
+            return instance.save(db)
+        except Exception as e:
+            db.rollback()
+            raise e
 
     @classmethod
     def get(cls, db: Session, id: int):
@@ -74,6 +96,5 @@ class ModeloBase(Base):
         return query.first()
 
     def __repr__(self):
-        # Define un formato de representacion como cadena para el modelo base.
         params = ", ".join(f"{k}={v}" for k, v in keyvalgen(self))
         return f"{self.__class__.__name__}({params})"

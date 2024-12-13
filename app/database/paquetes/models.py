@@ -11,7 +11,6 @@ from ..tipos.models import Tipo
 class Paquete(ModeloBase):
     __tablename__ = "paquetes"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     nodo_id: Mapped[int] = mapped_column(ForeignKey("nodos.identificador"))
     data: Mapped[float] = mapped_column(Float, index=True)
     type_id: Mapped[int] = mapped_column(ForeignKey("tipos.data_type"))
@@ -34,7 +33,6 @@ class PaqueteRechazado(ModeloBase):
 class PaqueteArchivo(ModeloBase):
     __tablename__ = "paquetes_archivo"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     data: Mapped[float] = mapped_column(Float, index=True)
     type_id: Mapped[int] = mapped_column(ForeignKey("tipos.data_type"))
     date: Mapped[datetime] = mapped_column(DateTime, index=True)

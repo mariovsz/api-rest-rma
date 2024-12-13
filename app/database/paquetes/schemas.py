@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class PaqueteBase(BaseModel):
-    nodo_id: int
+    paquete_id: int
     data: float
     date: datetime
     type_id: int
