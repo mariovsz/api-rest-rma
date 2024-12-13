@@ -6,8 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .database.basemodel import ModeloBase
 from .database.database import engine
-from .database.paquetes.router import router as paquete_router
+from .database.paquetes.router import router as paquetes_router
 from .database.nodos.router import router as nodos_router
+from .database.tipos.router import router as tipos_router
 from .MQTT.iot_thread import IoTThread
 
 
@@ -65,7 +66,7 @@ app.add_middleware(
 
 # Incluir rutas
 app.include_router(
-    paquete_router,
+    paquetes_router,
     prefix="/paquetes",
     tags=["Paquetes"],
 )
@@ -73,4 +74,9 @@ app.include_router(
     nodos_router,
     prefix="/nodos",
     tags=["Nodos"],
+)
+app.include_router(
+    tipos_router,
+    prefix="/tipos",
+    tags=["Tipos"],
 )
