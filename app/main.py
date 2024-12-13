@@ -9,6 +9,9 @@ from .database.database import engine
 from .database.paquetes.router import router as paquetes_router
 from .database.nodos.router import router as nodos_router
 from .database.tipos.router import router as tipos_router
+from .database.permisos.router import router as permisos_router
+from database.roles.router import router as roles_router
+
 from .MQTT.iot_thread import IoTThread
 
 
@@ -79,4 +82,14 @@ app.include_router(
     tipos_router,
     prefix="/tipos",
     tags=["Tipos"],
+)
+app.include_router(
+    permisos_router,
+    prefix="/permisos",
+    tags=["Permisos"],
+)
+app.include_router(
+    roles_router,
+    prefix="/roles",
+    tags=["Roles"],
 )
