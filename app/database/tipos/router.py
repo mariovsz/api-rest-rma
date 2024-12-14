@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
+from typing import List
 from ..database import get_db
 from . import services
 from .schemas import Tipo, TipoCreate, TipoUpdate, TipoDelete
@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=list[Tipo],
+    response_model=List[Tipo],
     # dependencies=[Depends(permiso_requerido("get_tipos"))]
 )
 def get_tipos(db: Session = Depends(get_db)):

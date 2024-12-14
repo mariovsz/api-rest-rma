@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from pydantic import field_validator
 from typing import Optional
-from typing import List, Optional
 
 
 class RoleBase(BaseModel):

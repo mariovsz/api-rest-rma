@@ -4,6 +4,7 @@ from sqlalchemy import update, Column, Integer, DateTime
 from sqlalchemy.orm import Session, declarative_base, mapped_column, Mapped
 from sqlalchemy.sql import func
 
+
 Base = declarative_base()
 
 

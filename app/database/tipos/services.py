@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-
+from typing import List
 from .schemas import TipoCreate, TipoUpdate, TipoDelete, Tipo as TipoSchema
 from .models import Tipo
 
@@ -17,7 +17,7 @@ def get_tipo(db: Session, tipo_id: int) -> TipoSchema:
     return TipoSchema.model_validate(tipo)
 
 
-def get_tipos(db: Session) -> list[TipoSchema]:
+def get_tipos(db: Session) -> List[TipoSchema]:
     tipos = Tipo.get_all(db)
     return [TipoSchema.model_validate(tipo) for tipo in tipos]
 
