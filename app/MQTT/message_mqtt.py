@@ -5,10 +5,7 @@ from typing import Optional
 from ..database.database import get_db
 from ..database.paquetes.schemas import PaqueteCreate
 from ..database.paquetes.services import crear_paquete
-from ..config.logging_config import get_rich_toolkit
-
-
-toolkit = get_rich_toolkit()
+from ..config.logging_config import styled_console
 
 
 def es_valido(paquete):
@@ -17,7 +14,7 @@ def es_valido(paquete):
 
 def guardar_paquete(paquete: PaqueteCreate) -> None:
     crear_paquete(next(get_db()), paquete)
-    toolkit.print(f"Guardado: {paquete}", tag="MQTT")
+    styled_console(f"Guardado: {paquete}", "MQTT")
 
 
 def message_validator(msj) -> Optional[PaqueteCreate]:
@@ -34,7 +31,7 @@ def message_validator(msj) -> Optional[PaqueteCreate]:
         if es_valido(paquete):
             return paquete
     except Exception as e:
-        toolkit.print(f"Error de validación: {e}", tag="MQTT")
+        styled_console(f"Error de validación: {e}", "MQTT ERROR")
 
 
 def on_message(msj: str) -> None:

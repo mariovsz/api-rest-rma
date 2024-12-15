@@ -1,24 +1,20 @@
 import os
 from contextlib import asynccontextmanager
+
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database.basemodel import ModeloBase
 from .database.database import engine
-from .database.paquetes.router import router as paquetes_router
 from .database.nodos.router import router as nodos_router
-from .database.tipos.router import router as tipos_router
+from .database.paquetes.router import router as paquetes_router
 from .database.permisos.router import router as permisos_router
-from database.roles.router import router as roles_router
-
-from .MQTT.iot_thread import IoTThread
-
-
-# Función callback para procesar mensajes MQTT (opcional)
-def process_mqtt_message(message: str):
-    print(f"Procesando mensaje: {message}")
-
+from .database.roles.router import router as roles_router
+from .database.tipos.router import router as tipos_router
+from .database.users.router import router as user_router
+from .MQTT.message_mqtt import on_message
+from .MQTT.paho_thread import IoTThread
 
 # Cargar variables de entorno
 load_dotenv()
@@ -39,25 +35,24 @@ async def lifespan(app: FastAPI):
         MQTT_PORT,
         MQTT_TOPIC,
         MQTT_KEEPALIVE,
-        process_mqtt_message,
+        on_message,
     )
     iot_thread.start()
 
     yield
     # Detener el hilo MQTT
     iot_thread.stop()
-    iot_thread.join()
 
 
 # Crear la aplicación FastAPI
 app = FastAPI(root_path=ROOT_PATH, lifespan=lifespan)
+
+
+# Configuración de CORS
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
-
-
-# Configuración de CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -92,4 +87,9 @@ app.include_router(
     roles_router,
     prefix="/roles",
     tags=["Roles"],
+)
+app.include_router(
+    user_router,
+    prefix="/usuarios",
+    tags=["Usuarios"],
 )
