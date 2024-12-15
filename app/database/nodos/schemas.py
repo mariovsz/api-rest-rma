@@ -1,6 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel
 from ..paquetes.schemas import Paquete
+from datetime import datetime
 
 
 class NodoBase(BaseModel):
@@ -21,6 +22,7 @@ class NodoUpdate(NodoBase):
 
 class Nodo(NodoBase):
     id: int
+    created_at: datetime
     model_config = {"from_attributes": True}
 
 

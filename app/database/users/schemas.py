@@ -14,18 +14,22 @@ class UserBase(BaseModel):
     model_config = {"from_attributes": True}
 
 
-class UserCreate(UserBase):
-    pass
+class UserCreate(BaseModel):
+    username: str = Field(..., max_length=50)
+    password: str = Field(..., min_length=8, max_length=255)
+    email: EmailStr = Field(..., min_length=5, max_length=50)
+    model_config = {"from_attributes": True}
 
 
 class UserUpdate(UserBase):
     pass
+    model_config = {"from_attributes": True}
 
 
 class User(UserBase):
     id: int
     created_at: datetime
-    updated_at: datetime
+    updated_at: Optional[datetime]
     model_config = {"from_attributes": True}
 
 

@@ -38,7 +38,7 @@ def assign_role_permisos(
     return services.assign_permiso_to_role(db, rolepermiso)
 
 
-@router.post(
+@router.delete(
     "/revoke/",
     response_model=RolePermisoDelete,
     # dependencies=[Depends(permiso_requerido("revoke_role_permisos"))],

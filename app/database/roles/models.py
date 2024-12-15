@@ -10,8 +10,8 @@ class Role(ModeloBase):
     name: Mapped[str] = mapped_column(String(50), unique=True)
     descripcion: Mapped[str] = mapped_column(String)
 
-    usuarios: Mapped[list["Usuario"]] = relationship(  # type: ignore
-        "Usuario", secondary="usuario_roles", back_populates="roles"
+    usuarios: Mapped[list["User"]] = relationship(  # type: ignore
+        "User", secondary="usuario_roles", back_populates="roles"
     )
     permisos: Mapped[list["Permiso"]] = relationship(  # type: ignore
         "Permiso", secondary="role_permisos", back_populates="roles"

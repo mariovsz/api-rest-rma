@@ -16,7 +16,7 @@ class TipoUpdate(TipoBase):
 
 
 class Tipo(TipoBase):
-    pass
+    id: int
     model_config = {"from_attributes": True}
 
 

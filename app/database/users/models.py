@@ -10,9 +10,9 @@ class User(ModeloBase):
 
     username: Mapped[str] = mapped_column(String(50), unique=True, index=True)
     password: Mapped[str] = mapped_column(String(255))
-    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-
     email: Mapped[str] = mapped_column(String(50), unique=True, index=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=True)
+
     full_name: Mapped[str] = mapped_column(String(50), nullable=True)
     last_login: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
     profile_image: Mapped[str] = mapped_column(String(255), nullable=True)

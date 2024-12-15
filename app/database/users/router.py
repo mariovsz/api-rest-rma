@@ -32,7 +32,7 @@ def retrieve_user(user_id: int, db: Session = Depends(get_db)):
     response_model=User,
     # dependencies=[Depends(permiso_requerido("create_users"))],
 )
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+def create_users(user: UserCreate, db: Session = Depends(get_db)):
     return services.create_user(db, user)
 
 

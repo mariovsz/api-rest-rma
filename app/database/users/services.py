@@ -62,5 +62,6 @@ def delete_user(db: Session, user_id: int) -> UserDelete:
 def update_user_status(db: Session, user_id: int, is_active: bool) -> UserSchema:
     user = get_user_or_404(db, user_id)
     user.is_active = is_active
-    user.update(db, user)
+    new_data = UserUpdate.model_validate(user)
+    user.update(db, new_data)
     return UserSchema.model_validate(user)
